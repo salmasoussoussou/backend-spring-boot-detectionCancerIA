@@ -56,5 +56,8 @@ public class AnalyseAIServiceImpl implements AnalyseAIService {
     public AnalyseAI getAnalyseByImageId(Long imageId) {
         return analyseRepo.findByImage_Id(imageId);
     }
-
+    @Override
+    public long countAnalyses() {
+        return analyseRepo.count();
+    }
 }

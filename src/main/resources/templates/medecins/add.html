@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajouter un Medecin</title>
+</head>
+<body>
+<h2>Ajouter un Médecin</h2>
+<form th:action="@{/medecins-view/save}" th:object="${medecin}" method="post">
+    <form th:action="@{/medecins-view/save}" th:object="${medecin}" method="post">
+        Nom: <input type="text" th:field="*{nom}" required /><br/>
+        Prenom: <input type="text" th:field="*{prenom}" required /><br/>
+        Email: <input type="email" th:field="*{email}" required /><br/>
+        Mot de passe: <input type="password" th:field="*{password}" required /><br/>
+        <button type="submit">Enregistrer</button>
+    </form>
+
+    <br/>
+    <button type="submit">Enregistrer</button>
+</form>
+</body>
+</html>

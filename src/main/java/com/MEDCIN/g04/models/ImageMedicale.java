@@ -19,6 +19,9 @@ public class ImageMedicale {
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
+    @OneToOne(mappedBy = "image", cascade = CascadeType.REMOVE)
+    private AnalyseAI analyseAI;
+
 
     @ManyToOne
     @JoinColumn(name = "medecin_id", nullable = false)

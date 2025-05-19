@@ -11,4 +11,5 @@ public interface SecretaireService {
     Secretaire createSecretaire(Secretaire secretaire);
     Secretaire updateSecretaire(Long id, Secretaire secretaire);
     void deleteSecretaire(Long id);
-}
+    // Ajoutez cette méthode
+    long countSecretaires();}

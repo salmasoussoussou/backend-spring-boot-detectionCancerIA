@@ -35,12 +35,19 @@ public class PatientServiceImpl implements PatientService {
 //        patient.setEspaceTravail(espace);
         return patientRepository.save(patient);
     }
+    @Override
+    public List<Patient> getLast5Patients() {
+        return patientRepository.findTop5ByOrderByIdDesc();
+        // Si vous n'avez pas de date de création, utilisez plutôt :
+        // return patientRepository.findTop5ByOrderByIdDesc();
+    }
 
     @Override
     public List<Patient> getAllPatients() {
         return patientRepository.findAll();
 
     }
+
 
     @Override
     public Optional<Patient> getPatientById(Long id) {
@@ -64,5 +71,9 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public void deletePatient(Long id) {
         patientRepository.deleteById(id);
+    }
+    @Override
+    public long countPatients() {
+        return patientRepository.count();
     }
 }

@@ -1,4 +1,5 @@
 package com.MEDCIN.g04.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import java.util.List;
@@ -24,11 +25,10 @@ public class Secretaire {
     @ManyToOne(fetch = FetchType.EAGER) // Charge toujours la relation
     @JoinColumn(name = "espace_travail_id")
     private EspaceTravail espaceTravail;
-//    // Relation OneToMany avec RendezVous
-//    @OneToMany(mappedBy = "secretaire", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<RendezVous> rendezVous = new HashSet<>();
 @OneToMany(mappedBy = "secretaire")
+@JsonIgnore
 private List<RendezVous> rendezVousList;
+
 
     // Constructeurs
     public Secretaire() {}

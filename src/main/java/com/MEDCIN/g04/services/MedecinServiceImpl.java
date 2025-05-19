@@ -134,4 +134,9 @@ public class MedecinServiceImpl implements MedecinService {
     public Optional<Medecin> findByEmail(String email) {
         return medecinRepository.findByEmail(email);
     }
+    @Override
+    public long countMedecins() {
+        return medecinRepository.count();
+    }
 }
+

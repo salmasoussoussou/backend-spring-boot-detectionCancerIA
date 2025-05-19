@@ -1,6 +1,5 @@
 package com.MEDCIN.g04.services.impl;
 
-import com.MEDCIN.g04.dto.DiagnosticDTO;
 import com.MEDCIN.g04.models.AnalyseAI;
 import com.MEDCIN.g04.models.Diagnostic;
 import com.MEDCIN.g04.models.Medecin;
@@ -14,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class DiagnosticServiceImpl implements DiagnosticService {
@@ -32,39 +31,50 @@ public class DiagnosticServiceImpl implements DiagnosticService {
     private AnalyseAIRepository analyseAIRepository;
 
     @Override
-    public DiagnosticDTO saveDiagnostic(DiagnosticDTO dto) {
-        Patient patient = patientRepository.findById(dto.getPatientId())
+    public Diagnostic saveDiagnostic(Diagnostic diagnostic) {
+        // Vérification si les entités liées existent
+        Patient patient = patientRepository.findById(diagnostic.getPatient().getId())
                 .orElseThrow(() -> new RuntimeException("Patient introuvable"));
-        Medecin medecin = medecinRepository.findById(dto.getMedecinId())
-                .orElseThrow(() -> new RuntimeException("Médecin introuvable"));
-        AnalyseAI analyse = analyseAIRepository.findById(dto.getAnalyseAIId())
-                .orElseThrow(() -> new RuntimeException("AnalyseAI introuvable"));
 
-        Diagnostic diagnostic = new Diagnostic();
-        diagnostic.setStatut(dto.getStatut());
-        diagnostic.setCommentaire(dto.getCommentaire());
-        diagnostic.setPartageAvecPatient(dto.isPartageAvecPatient());
+        Medecin medecin = medecinRepository.findById(diagnostic.getMedecin().getId())
+                .orElseThrow(() -> new RuntimeException("Médecin introuvable"));
+
+        AnalyseAI analyse = analyseAIRepository.findById(diagnostic.getAnalyseAI().getId())
+                .orElseThrow(() -> new RuntimeException("Analyse AI introuvable"));
+
         diagnostic.setPatient(patient);
         diagnostic.setMedecin(medecin);
         diagnostic.setAnalyseAI(analyse);
 
-        Diagnostic saved = diagnosticRepository.save(diagnostic);
-        return mapToDTO(saved);
+        return diagnosticRepository.save(diagnostic);
     }
 
     @Override
-    public List<DiagnosticDTO> getAllDiagnostics() {
-        return diagnosticRepository.findAll()
-                .stream()
-                .map(this::mapToDTO)
-                .collect(Collectors.toList());
+    public List<Diagnostic> getAllDiagnostics() {
+        return diagnosticRepository.findAll();
     }
 
     @Override
-    public DiagnosticDTO getDiagnosticById(Long id) {
-        Diagnostic diagnostic = diagnosticRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Diagnostic non trouvé"));
-        return mapToDTO(diagnostic);
+    public Optional<Diagnostic> getDiagnosticById(Long id) {
+        return diagnosticRepository.findById(id);
+    }
+
+    @Override
+    public Diagnostic updateDiagnostic(Long id, Diagnostic diagnosticDetails) {
+        return diagnosticRepository.findById(id).map(diagnostic -> {
+            diagnostic.setStatut(diagnosticDetails.getStatut());
+            diagnostic.setCommentaire(diagnosticDetails.getCommentaire());
+            if (diagnosticDetails.getPatient() != null) {
+                diagnostic.setPatient(diagnosticDetails.getPatient());
+            }
+            if (diagnosticDetails.getMedecin() != null) {
+                diagnostic.setMedecin(diagnosticDetails.getMedecin());
+            }
+            if (diagnosticDetails.getAnalyseAI() != null) {
+                diagnostic.setAnalyseAI(diagnosticDetails.getAnalyseAI());
+            }
+            return diagnosticRepository.save(diagnostic);
+        }).orElseThrow(() -> new RuntimeException("Diagnostic non trouvé avec l'id: " + id));
     }
 
     @Override
@@ -72,16 +82,8 @@ public class DiagnosticServiceImpl implements DiagnosticService {
         diagnosticRepository.deleteById(id);
     }
 
-    // Méthode utilitaire pour conversion
-    private DiagnosticDTO mapToDTO(Diagnostic diagnostic) {
-        DiagnosticDTO dto = new DiagnosticDTO();
-        dto.setId(diagnostic.getId());
-        dto.setStatut(diagnostic.getStatut());
-        dto.setCommentaire(diagnostic.getCommentaire());
-        dto.setPartageAvecPatient(diagnostic.isPartageAvecPatient());
-        dto.setPatientId(diagnostic.getPatientId());
-        dto.setMedecinId(diagnostic.getMedecinId());
-        dto.setAnalyseAIId(diagnostic.getAnalyseAIId());
-        return dto;
+    @Override
+    public long countDiagnostic() {
+        return diagnosticRepository.count();
     }
 }

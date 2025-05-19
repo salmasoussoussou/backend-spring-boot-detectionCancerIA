@@ -12,4 +12,5 @@ public interface MedecinService {
     Medecin updateMedecin(Long id, Medecin medecinDetails);
     void deleteMedecin(Long id);
     Optional<Medecin> findByEmail(String email);
+    long countMedecins();
 }

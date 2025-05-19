@@ -39,7 +39,12 @@ public class AuthController {
                         authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
             String token = jwtService.generateToken(authRequest.getEmail());
-            return new JwtResponse(token);
+            // 👉 Récupérer l'utilisateur et son rôle
+            UserInfo user = userInfoRepository.findByEmail(authRequest.getEmail())
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+            // 👉 Retourner le token et le rôle
+            return new JwtResponse(token, user.getRole().name());
         } else {
             throw new UsernameNotFoundException("Invalid user request!");
         }

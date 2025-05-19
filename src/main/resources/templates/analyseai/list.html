@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des Analyses AI</title>
+</head>
+<body>
+<h1>Liste des Analyses AI</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Score</th>
+        <th>Zones Anormales</th>
+        <th>Image ID</th>
+        <th>Détails</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="analyse : ${analyseai}">
+        <td th:text="${analyse.id}"></td>
+        <td th:text="${analyse.score}"></td>
+        <td th:text="${analyse.zonesAnormales}"></td>
+        <td th:text="${analyse.image.id}"></td>
+        <td>
+            <a th:href="@{'/analyseai-view' + ${analyse.id}}">Voir</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

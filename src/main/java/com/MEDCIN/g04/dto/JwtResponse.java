@@ -7,12 +7,15 @@ import lombok.Data;
 @AllArgsConstructor
 public class JwtResponse {
     private String token;
+    private String role;
+
 
     public JwtResponse() {
     }
 
-    public JwtResponse(String token) {
+    public JwtResponse(String token, String role) {
         this.token = token;
+        this.role=role;
     }
 
     public String getToken() {
@@ -21,5 +24,12 @@ public class JwtResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+    public String getrole() {
+        return role;
+    }
+
+    public void setrole(String role) {
+        this.role = role;
     }
 }

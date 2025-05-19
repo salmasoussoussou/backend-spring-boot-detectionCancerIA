@@ -24,7 +24,7 @@ public class Diagnostic {
     @JoinColumn(name = "medecin_id", nullable = false)
     private Medecin medecin;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "analyse_ai_id", nullable = false)
     private AnalyseAI analyseAI;
     @Column(name = "partage_avec_patient", nullable = false)
@@ -54,7 +54,10 @@ public class Diagnostic {
     public Long getId() {
         return id;
     }
-
+    // ✅ SETTER pour l'id
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getStatut() {
         return statut;
     }

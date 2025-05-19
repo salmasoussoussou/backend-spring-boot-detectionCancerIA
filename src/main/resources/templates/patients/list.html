@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediScan - Gestion Patients</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1a6fc9;
+            --secondary-blue: #3aa8d8;
+            --medical-teal: #2d9d9a;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+            --white: #ffffff;
+            --sidebar-width: 280px;
+            --sidebar-collapsed-width: 80px;
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar amélioré */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: linear-gradient(180deg, var(--primary-blue), var(--medical-teal));
+            color: white;
+            transition: all var(--transition-speed);
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        .sidebar-brand {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all var(--transition-speed);
+        }
+
+        .sidebar-brand i {
+            font-size: 1.8rem;
+            margin-right: 10px;
+            color: white;
+        }
+
+        .sidebar-brand h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            transition: all var(--transition-speed);
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-link:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .sidebar-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid white;
+            font-weight: 500;
+        }
+
+        .sidebar-link i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            transition: all var(--transition-speed);
+        }
+
+        .sidebar.collapsed .sidebar-brand h3,
+        .sidebar.collapsed .sidebar-link span {
+            display: none;
+            opacity: 0;
+        }
+
+        .sidebar.collapsed .sidebar-link {
+            justify-content: center;
+            padding: 15px 0;
+        }
+
+        .sidebar.collapsed .sidebar-link i {
+            margin-right: 0;
+            font-size: 1.3rem;
+        }
+
+        /* Top Navbar modernisé */
+        .top-navbar {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            padding: 15px 25px;
+            border-radius: 0 0 10px 10px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all var(--transition-speed);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .main {
+            margin-left: var(--sidebar-width);
+            padding: 25px;
+            transition: margin-left var(--transition-speed);
+        }
+
+        .sidebar.collapsed ~ .main {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+
+        /* Contenu principal amélioré */
+        .dashboard-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tableau moderne */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(26, 111, 201, 0.05);
+        }
+
+        .table tbody td {
+            padding: 12px 15px;
+            vertical-align: middle;
+            border-top: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        /* Boutons améliorés */
+        .btn-action {
+            border-radius: 50px;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-action i {
+            margin-right: 5px;
+        }
+
+        .btn-add {
+            background-color: var(--medical-teal);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-add:hover {
+            background-color: #238a87;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(45, 157, 154, 0.3);
+        }
+
+        .btn-add i {
+            margin-right: 8px;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1100;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .top-navbar {
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+        <i class="fas fa-hospital"></i>
+        <h3>MediScan</h3>
+    </div>
+    <div class="sidebar-menu">
+        <a th:href="@{/admin-dashboard}" class="sidebar-link">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Tableau de bord</span>
+        </a>
+        <a th:href="@{/patients-view}" class="sidebar-link active">
+            <i class="fas fa-procedures"></i>
+            <span>Patients</span>
+        </a>
+        <a th:href="@{/medecins-view}" class="sidebar-link">
+            <i class="fas fa-user-md"></i>
+            <span>Médecins</span>
+        </a>
+        <a th:href="@{/rendezvous}" class="sidebar-link">
+            <i class="fas fa-calendar-check"></i>
+            <span>Rendez-vous</span>
+        </a>
+        <a th:href="@{/analyses}" class="sidebar-link">
+            <i class="fas fa-microscope"></i>
+            <span>Analyses IA</span>
+        </a>
+        <a th:href="@{/images}" class="sidebar-link">
+            <i class="fas fa-images"></i>
+            <span>Images médicales</span>
+        </a>
+        <a th:href="@{/secretaires}" class="sidebar-link">
+            <i class="fas fa-user-nurse"></i>
+            <span>Secrétaires</span>
+        </a>
+        <a th:href="@{/espaces}" class="sidebar-link">
+            <i class="fas fa-briefcase-medical"></i>
+            <span>Espaces de travail</span>
+        </a>
+    </div>
+    <div class="sidebar-item mt-auto">
+        <a th:href="@{/logout}" class="sidebar-link">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Déconnexion</span>
+        </a>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main" id="main">
+    <!-- Top Navbar -->
+    <nav class="top-navbar">
+        <div class="d-flex align-items-center">
+            <button class="btn btn-outline-primary me-3 d-lg-none" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <button class="btn btn-outline-secondary me-2 d-none d-lg-block" id="sidebarCollapse">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="search-box me-3">
+                <form th:action="@{/patients-view/search}" method="get" class="d-flex">
+                    <div class="input-group">
+                        <input type="number" name="id" class="form-control" placeholder="Rechercher par ID..." required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <div class="position-relative me-3">
+                <button class="btn btn-light position-relative">
+                    <i class="fas fa-bell"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        7
+                    </span>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container-fluid fade-in">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Gestion des Patients</h1>
+            <a th:href="@{/patients-view/new}" class="btn btn-add">
+                <i class="fas fa-plus"></i> Nouveau Patient
+            </a>
+        </div>
+
+        <div class="table-container">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Âge</th>
+                    <th>Sexe</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="patient : ${patients}">
+                    <td th:text="${patient.id}"></td>
+                    <td th:text="${patient.nom}"></td>
+                    <td th:text="${patient.age}"></td>
+                    <td>
+                            <span th:if="${patient.sexe == 'Homme'}" class="badge bg-primary">
+                                <i class="fas fa-male me-1"></i> Homme
+                            </span>
+                        <span th:if="${patient.sexe == 'Femme'}" class="badge bg-primary">
+                                <i class="fas fa-male me-1"></i> Femme
+                            </span>
+                    </td>
+                    <td>
+                        <a th:href="@{/patients-view/edit(id=${patient.id})}" class="btn btn-action btn-primary me-2">
+                            <i class="fas fa-edit"></i> Modifier
+                        </a>
+
+                        <!-- 🔴 Bouton Supprimer -->
+                        <a th:href="@{'/patients-view/delete?id=' + ${patient.id}}"
+                           class="btn btn-action btn-danger me-2"
+                           onclick="return confirm('Êtes-vous sûre de vouloir supprimer ce patient ?');">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Toggle sidebar
+    document.getElementById('sidebarCollapse').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('collapsed');
+        document.getElementById('main').classList.toggle('collapsed');
+    });
+
+    // Mobile sidebar toggle
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('show');
+    });
+
+    // Animation for page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const elements = document.querySelectorAll('.fade-in');
+        elements.forEach((el, index) => {
+            el.style.animationDelay = `${index * 0.1}s`;
+        });
+    });
+</script>
+</body>
+</html>

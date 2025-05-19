@@ -68,7 +68,7 @@ public class AnalyseAI {
 
     @Override
     public String toString() {
-        return "AnalyseAI{" +
+        return "analyseai{" +
                 "id=" + id +
                 ", score=" + score +
                 ", zonesAnormales='" + zonesAnormales + '\'' +

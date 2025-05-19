@@ -16,12 +16,11 @@ public class RendezVous {
 
     @Column(nullable = false)
     private String motif;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER) // Charge toujours le patient
     @JoinColumn(name = "id_patient", nullable = false)
     private Patient patient;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER) // Charge toujours la secrétaire
     @JoinColumn(name = "id_secretaire", nullable = false)
     private Secretaire secretaire;
 

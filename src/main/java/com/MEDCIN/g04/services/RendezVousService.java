@@ -8,4 +8,5 @@ public interface RendezVousService {
     List<RendezVous> getAllRendezVous();
     RendezVous getRendezVousById(Long id);
     void deleteRendezVous(Long id);
+    long countRendezVous();
 }

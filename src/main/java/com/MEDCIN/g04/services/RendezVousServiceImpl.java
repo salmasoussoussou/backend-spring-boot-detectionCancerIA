@@ -57,4 +57,8 @@ public class RendezVousServiceImpl implements RendezVousService {
     public void deleteRendezVous(Long id) {
         rendezVousRepo.deleteById(id);
     }
+    @Override
+    public long countRendezVous() {
+        return rendezVousRepo.count();
+    }
 }

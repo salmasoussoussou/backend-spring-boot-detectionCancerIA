@@ -20,4 +20,5 @@ public interface AnalyseAIService {
 
     // Récupère une analyse en fonction de l'image médicale associée
     AnalyseAI getAnalyseByImageId(Long imageId);
+    long countAnalyses();
 }

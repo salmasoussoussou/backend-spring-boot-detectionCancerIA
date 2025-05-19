@@ -1,52 +1,54 @@
 package com.MEDCIN.g04.controllers;
 
-import com.MEDCIN.g04.dto.DiagnosticDTO;
+import com.MEDCIN.g04.models.Diagnostic;
 import com.MEDCIN.g04.services.DiagnosticService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/diagnostics")
-@CrossOrigin(origins = "*") // Tu peux limiter à un domaine spécifique en prod
+@CrossOrigin(origins = "*") // Pour autoriser les requêtes depuis Postman ou le frontend
 public class DiagnosticController {
 
     @Autowired
     private DiagnosticService diagnosticService;
 
-    // 🔹 Ajouter un diagnostic
+    // Ajouter un diagnostic
     @PostMapping
-    public ResponseEntity<DiagnosticDTO> createDiagnostic(@RequestBody DiagnosticDTO diagnosticDTO) {
-        DiagnosticDTO created = diagnosticService.saveDiagnostic(diagnosticDTO);
-        return ResponseEntity.ok(created);
+    public Diagnostic createDiagnostic(@RequestBody Diagnostic diagnostic) {
+        return diagnosticService.saveDiagnostic(diagnostic);
     }
 
-    // 🔹 Récupérer tous les diagnostics
+    // Récupérer tous les diagnostics
     @GetMapping
-    public ResponseEntity<List<DiagnosticDTO>> getAllDiagnostics() {
-        return ResponseEntity.ok(diagnosticService.getAllDiagnostics());
+    public List<Diagnostic> getAllDiagnostics() {
+        return diagnosticService.getAllDiagnostics();
     }
 
-    // 🔹 Récupérer un diagnostic par ID
+    // Récupérer un diagnostic par ID
     @GetMapping("/{id}")
-    public ResponseEntity<DiagnosticDTO> getDiagnosticById(@PathVariable Long id) {
-        return ResponseEntity.ok(diagnosticService.getDiagnosticById(id));
+    public Optional<Diagnostic> getDiagnosticById(@PathVariable Long id) {
+        return diagnosticService.getDiagnosticById(id);
     }
 
-    // 🔹 Supprimer un diagnostic
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDiagnostic(@PathVariable Long id) {
-        diagnosticService.deleteDiagnostic(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    // (Facultatif) 🔹 Mettre à jour un diagnostic existant
+    // Mettre à jour un diagnostic
     @PutMapping("/{id}")
-    public ResponseEntity<DiagnosticDTO> updateDiagnostic(@PathVariable Long id, @RequestBody DiagnosticDTO diagnosticDTO) {
-        diagnosticDTO.setId(id);
-        DiagnosticDTO updated = diagnosticService.saveDiagnostic(diagnosticDTO);
-        return ResponseEntity.ok(updated);
+    public Diagnostic updateDiagnostic(@PathVariable Long id, @RequestBody Diagnostic diagnosticDetails) {
+        return diagnosticService.updateDiagnostic(id, diagnosticDetails);
+    }
+
+    // Supprimer un diagnostic
+    @DeleteMapping("/{id}")
+    public void deleteDiagnostic(@PathVariable Long id) {
+        diagnosticService.deleteDiagnostic(id);
+    }
+
+    // Compter le nombre total de diagnostics
+    @GetMapping("/count")
+    public long countDiagnostics() {
+        return diagnosticService.countDiagnostic();
     }
 }

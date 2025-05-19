@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 
-
 @Entity
 @Table(name = "patients")
 public class Patient {
@@ -31,11 +30,14 @@ public class Patient {
     @ManyToOne
     @JoinColumn(name = "espace_travail_id")
     private EspaceTravail espaceTravail;
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ImageMedicale> imagesMedicales = new ArrayList<>();
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
+    private List<ImageMedicale> images;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
     private List<Diagnostic> diagnostics;
-    @OneToMany(mappedBy = "patient")
+
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
     private List<RendezVous> rendezVousList;
 
 
