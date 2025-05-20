@@ -41,6 +41,7 @@ public class Medecin {
     @JoinColumn(name = "medecin")
     private UserInfo userInfo;
 
+
     public Medecin() {}
 
     public Medecin(String nom, String prenom, String email) {
@@ -90,7 +91,7 @@ public class Medecin {
         this.password = password;
     }
 
-        public EspaceTravail getEspaceTravail() {
+    public EspaceTravail getEspaceTravail() {
         return espaceTravail;
     }
 

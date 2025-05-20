@@ -21,10 +21,10 @@ public class Secretaire {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    // Relation ManyToOne avec EspaceTravail
-    @ManyToOne(fetch = FetchType.EAGER) // Charge toujours la relation
-    @JoinColumn(name = "espace_travail_id")
+    @ManyToOne
+    @JoinColumn(name = "espace_travail_id", nullable = true) // <= important
     private EspaceTravail espaceTravail;
+
 @OneToMany(mappedBy = "secretaire")
 @JsonIgnore
 private List<RendezVous> rendezVousList;

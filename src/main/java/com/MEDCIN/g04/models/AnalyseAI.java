@@ -1,6 +1,8 @@
 package com.MEDCIN.g04.models;
 
 import jakarta.persistence.*;
+import java.util.List;
+
 
 @Entity
 @Table(name = "analyses_ai")
@@ -19,8 +21,9 @@ public class AnalyseAI {
     @OneToOne
     @JoinColumn(name = "image_medicale_id", nullable = false)
     private ImageMedicale image; // Relation vers l’image analysée
-    @OneToOne(mappedBy = "analyseAI")
-    private Diagnostic diagnostic;
+    @OneToMany(mappedBy = "analyseAI", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Diagnostic> diagnostics;
+
 
     // Constructeurs
     public AnalyseAI() {

@@ -16,10 +16,13 @@ public class Patient {
 
     @Column(nullable = false, length = 100)
     private String nom;
+    @Column(nullable = false, length = 100)
+    private String prenom;
 
     @Column(nullable = false)
     private Integer age;
-
+    @Column(name = "email", nullable = false, unique = true, length = 100)
+    private String email;
     @Column(nullable = false, length = 10)
     private String sexe;
 
@@ -30,12 +33,12 @@ public class Patient {
     @ManyToOne
     @JoinColumn(name = "espace_travail_id")
     private EspaceTravail espaceTravail;
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImageMedicale> images;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
-    private List<Diagnostic> diagnostics;
 
+@OneToMany(mappedBy = "patient")
+private List<Diagnostic> diagnostics;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.REMOVE)
     private List<RendezVous> rendezVousList;
@@ -45,10 +48,12 @@ public class Patient {
     public Patient() {}
 
     // Constructeur avec tous les champs
-    public Patient(String nom, Integer age, String sexe, Medecin medecin, EspaceTravail espaceTravail) {
+    public Patient(String nom,String prenom, Integer age, String email, String sexe, Medecin medecin, EspaceTravail espaceTravail) {
 
         this.nom = nom;
+        this.prenom = prenom;
         this.age = age;
+        this.email = email;
         this.sexe = sexe;
         this.medecin = medecin;
         this.espaceTravail = espaceTravail;
@@ -58,8 +63,12 @@ public class Patient {
     public Long getId() { return id; }
     public String getNom() { return nom; }
     public void setNom(String nom) { this.nom = nom; }
+    public String getPrenom() { return prenom; }
+    public void setPrenom(String prenom) { this.prenom = prenom; }
     public Integer getAge() { return age; }
     public void setAge(Integer age) { this.age = age; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
     public String getSexe() { return sexe; }
     public void setSexe(String sexe) { this.sexe = sexe; }
     public Medecin getMedecin() { return medecin; }
@@ -79,12 +88,14 @@ public class Patient {
     @Override
     public String toString() {
         return "Patient{" +
-                "patientid=" + id +
+                "id=" + id +
                 ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
                 ", age=" + age +
+                ", email='" + email + '\'' +
                 ", sexe='" + sexe + '\'' +
-                ", medecinId=" + getMedecinId() +
-                ", espaceTravailId=" + getEspaceTravailId() +
+                ", medecin=" + medecin +
+                ", espaceTravail=" + espaceTravail +
                 '}';
     }
 }

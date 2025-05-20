@@ -26,12 +26,15 @@ public class PatientController {
         return new PatientDTO(
                 patient.getId(),
                 patient.getNom(),
+                patient.getPrenom(),
                 patient.getAge(),
+                patient.getEmail(),
                 patient.getSexe(),
                 patient.getMedecin() != null ? patient.getMedecin().getId() : null,
                 patient.getEspaceTravail() != null ? patient.getEspaceTravail().getId() : null
         );
     }
+
 
     // 🔹 Ajouter un patient
     @PostMapping

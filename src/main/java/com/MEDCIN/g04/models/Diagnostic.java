@@ -24,9 +24,11 @@ public class Diagnostic {
     @JoinColumn(name = "medecin_id", nullable = false)
     private Medecin medecin;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "analyse_ai_id", nullable = false)
     private AnalyseAI analyseAI;
+
+
     @Column(name = "partage_avec_patient", nullable = false)
     private boolean partageAvecPatient = false;
 

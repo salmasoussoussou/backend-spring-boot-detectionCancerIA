@@ -42,7 +42,7 @@ public class SecretaireController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SecretaireDTO createSecretaire(@RequestBody Secretaire secretaire) {
-        Secretaire saved = secretaireService.createSecretaire(secretaire);
+        Secretaire saved = secretaireService.saveSecretaire(secretaire);
         return convertToDTO(saved);
     }
 

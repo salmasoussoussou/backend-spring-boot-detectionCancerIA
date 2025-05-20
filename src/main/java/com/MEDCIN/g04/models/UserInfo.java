@@ -22,9 +22,11 @@ public class UserInfo {
     private Role role;
     private boolean enabled = true; // ✅ Ajout du champ avec valeur par défaut
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "medecin_id")
     private Medecin medecin;
+
+
 
     public enum Role {
         ADMIN,

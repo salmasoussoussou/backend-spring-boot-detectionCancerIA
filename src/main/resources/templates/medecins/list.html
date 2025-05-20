@@ -399,6 +399,7 @@
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Email</th>
+                    <th>Espace Travail ID</th> <!-- Nouvelle colonne -->
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -407,13 +408,13 @@
                     <td th:text="${medecin.id}"></td>
                     <td th:text="${medecin.nom}"></td>
                     <td th:text="${medecin.prenom}"></td>
-                    <td th:text="${medecin.email}"></td>
                     <td>
                         <a th:href="'mailto:' + ${medecin.email}" class="text-primary">
                             <i class="fas fa-envelope me-1"></i>
                             <span th:text="${medecin.email}"></span>
                         </a>
                     </td>
+                    <td th:text="${medecin.espaceTravailId}"> <!-- Accès à la méthode getEspaceTravailId() -->
                     <td>
                         <div class="d-flex">
                             <a th:href="@{/medecins-view/edit(id=${medecin.id})}" class="btn btn-action btn-primary me-2">

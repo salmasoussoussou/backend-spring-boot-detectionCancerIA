@@ -30,7 +30,7 @@ public class SecretaireServiceImpl implements SecretaireService {
     }
 
     @Override
-    public Secretaire createSecretaire(Secretaire secretaire) {
+    public Secretaire saveSecretaire(Secretaire secretaire) {
         return secretaireRepository.save(secretaire);
     }
 
