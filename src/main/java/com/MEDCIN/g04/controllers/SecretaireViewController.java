@@ -26,7 +26,7 @@ public class SecretaireViewController {
         this.espaceTravailService = espaceTravailService;
     }
 
-    // ✅ Liste des secrétaires
+    //  Liste des secrétaires
     @GetMapping
     public String listSecretaires(Model model) {
         List<Secretaire> secretaires = secretaireService.getAllSecretaires();
@@ -34,7 +34,7 @@ public class SecretaireViewController {
         return "secretaires/list"; // à créer dans templates/secretaires/list.html
     }
 
-    // ✅ Formulaire d'ajout
+    //  Formulaire d'ajout
     @GetMapping("/new")
     public String showAddForm(Model model) {
         model.addAttribute("secretaire", new Secretaire());
@@ -43,7 +43,7 @@ public class SecretaireViewController {
     }
 
 
-    // ✅ Enregistrement d'une nouvelle secrétaire
+    //  Enregistrement d'une nouvelle secrétaire
     @PostMapping("/save")
     public String saveSecretaire(@ModelAttribute("secretaire") Secretaire secretaire) {
         // Ne touche pas à l'espace de travail
@@ -86,7 +86,7 @@ public class SecretaireViewController {
 
 
 
-    // ✅ Recherche par ID
+    // Recherche par ID
     @GetMapping("/search")
     public String searchSecretaireById(@RequestParam("id") Long id, Model model) {
         Optional<Secretaire> optionalSecretaire = secretaireService.getSecretaireById(id);
@@ -99,7 +99,7 @@ public class SecretaireViewController {
         return "secretaires/list";
     }
 
-    // ✅ Supprimer une secrétaire
+    // Supprimer une secrétaire
     @GetMapping("/delete")
     public String deleteSecretaire(@RequestParam("id") Long id) {
         secretaireService.deleteSecretaire(id);

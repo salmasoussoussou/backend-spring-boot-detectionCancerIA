@@ -21,7 +21,7 @@ public class PatientViewController {
         this.patientService = patientService;
     }
 
-    // ✅ Liste des patients
+    //  Liste des patients
     @GetMapping
     public String listPatients(Model model) {
         List<Patient> patients = patientService.getAllPatients();
@@ -29,21 +29,21 @@ public class PatientViewController {
         return "patients/list";
     }
 
-    // ✅ Formulaire d'ajout
+    // Formulaire d'ajout
     @GetMapping("/new")
     public String showAddForm(Model model) {
         model.addAttribute("patient", new Patient());
         return "patients/add";
     }
 
-    // ✅ Enregistrement d'un nouveau patient
+    //  Enregistrement d'un nouveau patient
     @PostMapping("/save")
     public String savePatient(@ModelAttribute("patient") Patient patient) {
         patientService.savePatient(patient);
         return "redirect:/patients-view";
     }
 
-    // ✅ Formulaire de modification
+    //  Formulaire de modification
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") Long id, Model model) {
         Patient patient = patientService.getPatientById(id)
@@ -52,7 +52,7 @@ public class PatientViewController {
         return "patients/edit";
     }
 
-    // ✅ Enregistrer les modifications
+    //  Enregistrer les modifications
     @PostMapping("/update/{id}")
     public String updatePatient(@PathVariable Long id, @ModelAttribute Patient patient) {
         patientService.updatePatient(id, patient);
@@ -72,7 +72,7 @@ public class PatientViewController {
     }
 
 
-    // ✅ Supprimer un patient
+    //  Supprimer un patient
     @GetMapping("/delete")
     public String deletePatient(@RequestParam("id") Long id) {
         patientService.deletePatient(id);

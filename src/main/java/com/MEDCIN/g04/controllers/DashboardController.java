@@ -6,10 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DashboardController {
 
-//    @GetMapping("/admin-dashboard")
-//    public String adminDashboard() {
-//        return "admin-dashboard"; // fichier HTML : admin-dashboard.html
-//    }
+
 
     @GetMapping("/medecin-dashboard")
     public String medecinDashboard() {
