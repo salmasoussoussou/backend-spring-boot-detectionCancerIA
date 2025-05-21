@@ -11,7 +11,7 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "patientid") // Spécifie que la colonne dans la base de données s'appelle 'patientid'
+    @Column(name = "patientid")
     private Long id;
 
     @Column(nullable = false, length = 100)
@@ -33,8 +33,11 @@ public class Patient {
     @ManyToOne
     @JoinColumn(name = "espace_travail_id")
     private EspaceTravail espaceTravail;
+
+
+
     @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ImageMedicale> images;
+    private List<ImageMedicale> images = new ArrayList<>();
 
 
 @OneToMany(mappedBy = "patient")

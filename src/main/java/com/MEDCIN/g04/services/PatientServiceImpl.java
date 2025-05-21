@@ -23,23 +23,12 @@ public class PatientServiceImpl implements PatientService {
     }
     @Override
     public Patient savePatient(Patient patient) {
-//        // Vérification que l'espace de travail existe
-//        if(patient.getEspaceTravail() == null || patient.getEspaceTravail().getId() == null) {
-//            throw new IllegalArgumentException("Espace de travail est obligatoire");
-//        }
-//
-//        // Chargez l'espace de travail depuis la base si nécessaire
-//        EspaceTravail espace = espaceTravailRepository.findById(patient.getEspaceTravail().getId())
-//                .orElseThrow(() -> new IllegalArgumentException("Espace de travail introuvable"));
-//
-//        patient.setEspaceTravail(espace);
+
         return patientRepository.save(patient);
     }
     @Override
     public List<Patient> getLast5Patients() {
         return patientRepository.findTop5ByOrderByIdDesc();
-        // Si vous n'avez pas de date de création, utilisez plutôt :
-        // return patientRepository.findTop5ByOrderByIdDesc();
     }
 
     @Override

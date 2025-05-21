@@ -53,7 +53,6 @@ public class SecretaireServiceImpl implements SecretaireService {
             throw new RuntimeException("Secrétaire non trouvée avec l'id : " + id);
         }
     }
-    // Implémentez cette méthode
     @Override
     public long countSecretaires() {
         return secretaireRepository.count();

@@ -16,11 +16,12 @@ public class AnalyseAI {
     private Double score;
 
     @Column(length = 2000)
-    private String zonesAnormales; // JSON ou texte décrivant les zones
+    private String zonesAnormales;
 
     @OneToOne
     @JoinColumn(name = "image_medicale_id", nullable = false)
-    private ImageMedicale image; // Relation vers l’image analysée
+    private ImageMedicale image;
+
     @OneToMany(mappedBy = "analyseAI", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Diagnostic> diagnostics;
 

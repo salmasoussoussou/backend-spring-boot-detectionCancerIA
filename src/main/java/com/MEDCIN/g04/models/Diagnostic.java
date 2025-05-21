@@ -11,7 +11,7 @@ public class Diagnostic {
     private Long id;
 
     @Column(nullable = false)
-    private String statut; // NORMAL, SUSPECT, CANCER
+    private String statut;
 
     @Column(length = 1000)
     private String commentaire;

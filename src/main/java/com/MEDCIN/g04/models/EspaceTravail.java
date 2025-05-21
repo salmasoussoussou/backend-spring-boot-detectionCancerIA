@@ -7,7 +7,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "espaces_travail")
-@JsonInclude(JsonInclude.Include.ALWAYS) // Inclut même les champs null
 public class EspaceTravail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,29 +21,10 @@ public class EspaceTravail {
     @OneToMany(mappedBy = "espaceTravail", cascade = CascadeType.ALL)
     private List<Medecin> medecins;
 
-//    // Relation OneToMany
-//    @OneToMany(mappedBy = "espaceTravail") // Doit matcher le nom dans Medecin
-//    private Set<Medecin> medecins = new HashSet<>();
-//
-//
-//
-//    // Relation OneToMany avec Patient
-//    @OneToMany(mappedBy = "espaceTravail", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<Patient> patients = new HashSet<>();
-//
-//    // Ajouter cette relation
-//    @OneToMany(mappedBy = "espaceTravail")
-//    private Set<Secretaire> secretaires = new HashSet<>();
+    @OneToMany(mappedBy = "espaceTravail", cascade = CascadeType.ALL)
+    private List<Patient> patient;
 
-//    // Ajouter ces méthodes
-//    public Set<Secretaire> getSecretaires() {
-//        return secretaires;
-//    }
 
-//    public void addSecretaire(Secretaire secretaire) {
-//        secretaires.add(secretaire);
-//        secretaire.setEspaceTravail(this);
-//    }
 
     // Constructeurs
     public EspaceTravail() {}
@@ -77,21 +57,6 @@ public class EspaceTravail {
 
 
 
-//    public Set<Medecin> getMedecins() {
-//        return medecins;
-//    }
-//
-//    public void setMedecins(Set<Medecin> medecins) {
-//        this.medecins = medecins;
-//    }
-
-//    public Set<Patient> getPatients() {
-//        return patients;
-//    }
-//
-//    public void setPatients(Set<Patient> patients) {
-//        this.patients = patients;
-//    }
 
 
     @Override

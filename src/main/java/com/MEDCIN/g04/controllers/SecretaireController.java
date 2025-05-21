@@ -40,7 +40,6 @@ public class SecretaireController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public SecretaireDTO createSecretaire(@RequestBody Secretaire secretaire) {
         Secretaire saved = secretaireService.saveSecretaire(secretaire);
         return convertToDTO(saved);
@@ -53,7 +52,6 @@ public class SecretaireController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSecretaire(@PathVariable Long id) {
         secretaireService.deleteSecretaire(id);
     }

@@ -20,7 +20,7 @@ public class UserInfo {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-    private boolean enabled = true; // ✅ Ajout du champ avec valeur par défaut
+    private boolean enabled = true;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "medecin_id")

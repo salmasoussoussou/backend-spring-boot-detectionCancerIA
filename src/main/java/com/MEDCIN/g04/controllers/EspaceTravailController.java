@@ -20,25 +20,10 @@ public class EspaceTravailController {
 
     // Méthode de conversion vers DTO
     private EspaceTravailDTO convertToDTO(EspaceTravail espace) {
-//        List<Long> medecinsIds = espace.getMedecins().stream()
-//                .map(m -> m.getId())
-//                .collect(Collectors.toList());
-//
-//        List<Long> patientsIds = espace.getPatients().stream()
-//                .map(p -> p.getPatientID())
-//                .collect(Collectors.toList());
-//
-//        List<Long> secretaireIds = espace.getSecretaires().stream()
-//                .map(s -> s.getId())
-//                .collect(Collectors.toList());
-
         return new EspaceTravailDTO(
                 espace.getId(),
                 espace.getNom(),
                 espace.getAdresse()
-//                medecinsIds,
-//                patientsIds,
-//                secretaireIds
         );
     }
 

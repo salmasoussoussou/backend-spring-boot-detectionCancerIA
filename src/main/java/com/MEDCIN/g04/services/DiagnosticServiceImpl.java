@@ -32,20 +32,6 @@ public class DiagnosticServiceImpl implements DiagnosticService {
 
     @Override
     public Diagnostic saveDiagnostic(Diagnostic diagnostic) {
-//        // Vérification si les entités liées existent
-//        Patient patient = patientRepository.findById(diagnostic.getPatient().getId())
-//                .orElseThrow(() -> new RuntimeException("Patient introuvable"));
-//
-//        Medecin medecin = medecinRepository.findById(diagnostic.getMedecin().getId())
-//                .orElseThrow(() -> new RuntimeException("Médecin introuvable"));
-//
-//        AnalyseAI analyse = analyseAIRepository.findById(diagnostic.getAnalyseAI().getId())
-//                .orElseThrow(() -> new RuntimeException("Analyse AI introuvable"));
-//
-//        diagnostic.setPatient(patient);
-//        diagnostic.setMedecin(medecin);
-//        diagnostic.setAnalyseAI(analyse);
-
         return diagnosticRepository.save(diagnostic);
     }
 

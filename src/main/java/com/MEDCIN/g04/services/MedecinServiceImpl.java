@@ -103,7 +103,7 @@ public class MedecinServiceImpl implements MedecinService {
                 })
                 .orElseThrow(() -> new EntityNotFoundException("Médecin non trouvé avec l'id: " + id));
     }
-
+    //Met à jour l’email dans UserInfo si le médecin change d’email
     private void updateUserInfoEmail(Medecin medecin, String newEmail) {
         userInfoRepository.findByMedecin(medecin)
                 .ifPresent(userInfo -> {
@@ -111,7 +111,7 @@ public class MedecinServiceImpl implements MedecinService {
                     userInfoRepository.save(userInfo);
                 });
     }
-
+//Met à jour le mot de passe dans UserInfo si le médecin change de mot de passe
     private void updateUserInfoPassword(Medecin medecin, String newPassword) {
         userInfoRepository.findByMedecin(medecin)
                 .ifPresent(userInfo -> {

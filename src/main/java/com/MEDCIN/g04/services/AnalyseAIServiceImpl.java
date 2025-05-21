@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 public class AnalyseAIServiceImpl implements AnalyseAIService {
-
+//Ce sont les repositories utilisés pour accéder à la base de données
     private final AnalyseAIRepository analyseRepo;
     private final ImageMedicaleRepository imageRepo;
 

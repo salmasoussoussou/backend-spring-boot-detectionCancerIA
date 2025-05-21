@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
-
+// vérifie à chaque requête si le token JWT est présent et valide, sinon bloque l’accès.
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -86,7 +86,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
+//définit les URL publiques où on ne vérifie pas le token.
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         // Exclure les endpoints publics du filtrage JWT
@@ -94,7 +94,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || request.getServletPath().startsWith("/swagger-ui/")
                 || request.getServletPath().startsWith("/v3/api-docs/");
     }
-
+// envoie une erreur au client si problème avec le token.
     private void sendErrorResponse(HttpServletResponse response, String message) throws IOException {
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

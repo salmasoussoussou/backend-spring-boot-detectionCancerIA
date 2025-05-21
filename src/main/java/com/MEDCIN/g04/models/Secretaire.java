@@ -22,7 +22,7 @@ public class Secretaire {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "espace_travail_id", nullable = true) // <= important
+    @JoinColumn(name = "espace_travail_id", nullable = true)
     private EspaceTravail espaceTravail;
 
 @OneToMany(mappedBy = "secretaire")
